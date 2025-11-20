@@ -1,0 +1,5 @@
+{
+  "name": "Project X - OSINT Suite",
+  "description": "A comprehensive Open Source Intelligence (OSINT) platform powered by Gemini 2.5. Perform reconnaissance, tech stack analysis, and threat assessment on public targets using AI-driven search grounding.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project X // OSINT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              cyber: {
+                950: 'var(--cyber-950)',
+                900: 'var(--cyber-900)',
+                800: 'var(--cyber-800)',
+                700: 'var(--cyber-700)',
+                accent: '#0ea5e9', // sky-500
+                success: '#10b981', // emerald-500
+                danger: '#ef4444', // red-500
+                warning: '#f59e0b', // amber-500
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'scan-line': 'scan 2s linear infinite',
+            },
+            keyframes: {
+              scan: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        /* Light Mode Defaults */
+        --cyber-950: #f1f5f9; /* slate-100 */
+        --cyber-900: #ffffff; /* white */
+        --cyber-800: #e2e8f0; /* slate-200 */
+        --cyber-700: #cbd5e1; /* slate-300 */
+      }
+      .dark {
+        /* Dark Mode Defaults */
+        --cyber-950: #020617; /* slate-950 */
+        --cyber-900: #0f172a; /* slate-900 */
+        --cyber-800: #1e293b; /* slate-800 */
+        --cyber-700: #334155; /* slate-700 */
+      }
+
+      body {
+        background-color: var(--cyber-950);
+        color: #e2e8f0;
+        transition: background-color 0.3s ease;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cyber-900); 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--cyber-700); 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "jspdf": "https://esm.sh/jspdf@2.5.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
