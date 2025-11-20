@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project X // OSINT</title>
+    <title>Project X // OSINT OPS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -17,25 +17,26 @@
             },
             colors: {
               cyber: {
-                950: 'var(--cyber-950)',
-                900: 'var(--cyber-900)',
-                800: 'var(--cyber-800)',
-                700: 'var(--cyber-700)',
-                accent: '#0ea5e9', // sky-500
-                success: '#10b981', // emerald-500
-                danger: '#ef4444', // red-500
-                warning: '#f59e0b', // amber-500
+                background: 'var(--background)',
+                surface: 'var(--surface)',
+                surfaceHover: 'var(--surface-hover)',
+                border: 'var(--border)',
+                text: 'var(--text-primary)',
+                textSecondary: 'var(--text-secondary)',
+                accent: 'var(--accent)',
+                accentHover: 'var(--accent-hover)',
+                success: 'var(--success)',
+                warning: 'var(--warning)',
+                error: 'var(--error)',
               }
+            },
+            boxShadow: {
+              'glow': '0 0 10px -3px var(--accent)',
+              'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+              'sharp': '0 0 0 1px var(--border)',
             },
             animation: {
               'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'scan-line': 'scan 2s linear infinite',
-            },
-            keyframes: {
-              scan: {
-                '0%': { transform: 'translateY(-100%)' },
-                '100%': { transform: 'translateY(100%)' }
-              }
             }
           }
         }
@@ -43,39 +44,62 @@
     </script>
     <style>
       :root {
-        /* Light Mode Defaults */
-        --cyber-950: #f1f5f9; /* slate-100 */
-        --cyber-900: #ffffff; /* white */
-        --cyber-800: #e2e8f0; /* slate-200 */
-        --cyber-700: #cbd5e1; /* slate-300 */
+        /* Light Mode (Corporate Ops) */
+        --background: #ffffff;   /* White */
+        --surface: #f4f4f5;      /* Zinc 100 */
+        --surface-hover: #e4e4e7; /* Zinc 200 */
+        --border: #d4d4d8;       /* Zinc 300 */
+        --text-primary: #18181b; /* Zinc 900 */
+        --text-secondary: #52525b; /* Zinc 600 */
+        --accent: #d97706;       /* Amber 600 - Darker for white bg */
+        --accent-hover: #b45309; /* Amber 700 */
+        --success: #15803d;      /* Green 700 */
+        --warning: #b45309;      /* Amber 700 */
+        --error: #b91c1c;        /* Red 700 */
       }
+
       .dark {
-        /* Dark Mode Defaults */
-        --cyber-950: #020617; /* slate-950 */
-        --cyber-900: #0f172a; /* slate-900 */
-        --cyber-800: #1e293b; /* slate-800 */
-        --cyber-700: #334155; /* slate-700 */
+        /* Dark Mode (Black + Amber Ops) */
+        --background: #09090b;   /* Zinc 950 */
+        --surface: #18181b;      /* Zinc 900 */
+        --surface-hover: #27272a; /* Zinc 800 */
+        --border: #27272a;       /* Zinc 800 */
+        --text-primary: #fafafa; /* Zinc 50 */
+        --text-secondary: #a1a1aa; /* Zinc 400 */
+        --accent: #f59e0b;       /* Amber 500 */
+        --accent-hover: #fbbf24; /* Amber 400 */
+        --success: #10b981;      /* Emerald 500 */
+        --warning: #f59e0b;      /* Amber 500 */
+        --error: #ef4444;        /* Red 500 */
       }
 
       body {
-        background-color: var(--cyber-950);
-        color: #e2e8f0;
-        transition: background-color 0.3s ease;
+        background-color: var(--background);
+        color: var(--text-primary);
+        transition: background-color 0.2s ease, color 0.2s ease;
       }
-      /* Custom Scrollbar */
+
+      /* Technical Scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: var(--cyber-900); 
+        background: var(--background); 
+        border-left: 1px solid var(--border);
       }
       ::-webkit-scrollbar-thumb {
-        background: var(--cyber-700); 
-        border-radius: 4px;
+        background: var(--border); 
+        border: 2px solid var(--background);
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #475569; 
+        background: var(--accent); 
+      }
+      
+      /* Utility Classes */
+      .border-accent-glow {
+        border-color: var(--accent);
+        box-shadow: 0 0 8px -2px var(--accent);
       }
     </style>
   <script type="importmap">

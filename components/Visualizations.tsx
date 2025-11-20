@@ -21,28 +21,32 @@ export const ThreatGauge: React.FC<ThreatGaugeProps> = ({ score }) => {
     {
       name: 'Threat Level',
       uv: score,
-      fill: score > 75 ? '#ef4444' : score > 40 ? '#f59e0b' : '#10b981',
+      fill: score > 75 ? '#b91c1c' : score > 40 ? '#f59e0b' : '#0f766e', // Red, Amber, Teal (darker)
     },
     {
       name: 'Max',
       uv: 100,
-      fill: '#1e293b', // background track
+      fill: 'var(--surface-hover)',
     }
   ];
 
+  const fillColor = score > 75 ? '#ef4444' : score > 40 ? '#f59e0b' : '#10b981';
+
   return (
-    <div className="w-full h-64 bg-cyber-900 border border-cyber-700 rounded-lg p-4 flex flex-col items-center justify-center relative">
-      <h4 className="absolute top-4 left-4 text-xs font-mono text-slate-400 uppercase tracking-wider">Threat Gauge</h4>
+    <div className="w-full h-64 bg-cyber-surface p-4 flex flex-col items-center justify-center relative">
+      <h4 className="absolute top-4 left-4 text-[10px] font-bold font-mono text-cyber-textSecondary uppercase tracking-widest">Threat Probability</h4>
       <ResponsiveContainer width="100%" height="100%">
-        <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="80%" barSize={10} data={data} startAngle={180} endAngle={0}>
+        <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="80%" barSize={8} data={data} startAngle={180} endAngle={0}>
           <RadialBar
             background
             dataKey="uv"
-            cornerRadius={30} 
-            label={false}
+            cornerRadius={0}
           />
-          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="fill-white text-2xl font-bold font-mono">
-            {score}/100
+          <text x="50%" y="45%" textAnchor="middle" dominantBaseline="middle" className="fill-cyber-text text-3xl font-bold font-mono tracking-tighter">
+            {score}%
+          </text>
+          <text x="50%" y="60%" textAnchor="middle" dominantBaseline="middle" className="fill-cyber-textSecondary text-[10px] font-bold uppercase tracking-widest">
+            Risk Factor
           </text>
         </RadialBarChart>
       </ResponsiveContainer>
@@ -50,29 +54,28 @@ export const ThreatGauge: React.FC<ThreatGaugeProps> = ({ score }) => {
   );
 };
 
-// Mock data component for visual flair in MVP
 export const NetworkActivityChart: React.FC = () => {
-  const data = Array.from({ length: 10 }, (_, i) => ({
-    name: `T-${i}`,
-    packets: Math.floor(Math.random() * 1000) + 500,
-    alerts: Math.floor(Math.random() * 100)
+  const data = Array.from({ length: 12 }, (_, i) => ({
+    name: `T${i}`,
+    traffic: Math.floor(Math.random() * 800) + 200,
+    anomalies: Math.floor(Math.random() * 100)
   }));
 
   return (
-    <div className="w-full h-64 bg-cyber-900 border border-cyber-700 rounded-lg p-4 mt-4">
-      <h4 className="mb-4 text-xs font-mono text-slate-400 uppercase tracking-wider">Live Traffic (Simulated)</h4>
+    <div className="w-full h-64 bg-cyber-surface p-4 mt-4">
+      <h4 className="mb-4 text-[10px] font-bold font-mono text-cyber-textSecondary uppercase tracking-widest">Network Traffic [Real-time]</h4>
       <ResponsiveContainer width="100%" height="80%">
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+        <BarChart data={data} barGap={2}>
+          <CartesianGrid strokeDasharray="1 1" vertical={false} stroke="var(--border)" opacity={0.3} />
           <XAxis dataKey="name" hide />
           <YAxis hide />
           <Tooltip 
-            contentStyle={{ backgroundColor: '#020617', borderColor: '#334155', color: '#f1f5f9' }}
-            itemStyle={{ color: '#0ea5e9' }}
-            cursor={{fill: '#1e293b', opacity: 0.4}}
+            contentStyle={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--text-primary)', fontSize: '12px', borderRadius: '2px' }}
+            itemStyle={{ color: 'var(--accent)' }}
+            cursor={{fill: 'var(--surface-hover)', opacity: 0.5}}
           />
-          <Bar dataKey="packets" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="alerts" fill="#ef4444" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="traffic" fill="var(--accent)" opacity={0.8} radius={[1, 1, 0, 0]} />
+          <Bar dataKey="anomalies" fill="var(--error)" radius={[1, 1, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
