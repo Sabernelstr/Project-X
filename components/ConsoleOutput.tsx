@@ -138,9 +138,9 @@ const TechStackGraph: React.FC<{ data: GraphData }> = ({ data }) => {
   };
 
   return (
-    <div ref={containerRef} className="w-full h-[320px] bg-black border border-zinc-800 rounded-sm my-4 relative overflow-hidden group shadow-inner">
-       <div className="absolute top-2 left-3 text-[10px] font-mono text-zinc-500 uppercase tracking-wider z-10 px-2 rounded bg-black/50">Topology Map</div>
-       <svg width="100%" height="100%" className="pointer-events-none relative z-0">
+    <div ref={containerRef} className="w-full bg-black border rounded-sm my-4 relative overflow-hidden group" style={{ height: '320px', boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)' }}>
+       <div className="absolute top-2 left-3 font-mono text-secondary uppercase tracking-wider z-10 px-2 rounded" style={{ fontSize: '10px', backgroundColor: 'rgba(0,0,0,0.5)' }}>Topology Map</div>
+       <svg width="100%" height="100%" className="relative z-0" style={{ pointerEvents: 'none' }}>
           <defs>
             <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="18" refY="3.5" orient="auto">
               <polygon points="0 0, 10 3.5, 0 7" fill="#3f3f46" />
@@ -154,8 +154,8 @@ const TechStackGraph: React.FC<{ data: GraphData }> = ({ data }) => {
           })}
           {nodes.map((n) => (
             <g key={n.id} transform={`translate(${n.x},${n.y})`}>
-               <circle r="10" fill="#09090b" stroke={getCategoryColor(n.category)} strokeWidth="2" className="drop-shadow-sm" />
-               <text y="24" textAnchor="middle" fill="#a1a1aa" className="text-[9px] font-mono uppercase tracking-tight bg-black/70 px-1">{n.label}</text>
+               <circle r="10" fill="#09090b" stroke={getCategoryColor(n.category)} strokeWidth="2" />
+               <text y="24" textAnchor="middle" fill="#a1a1aa" className="font-mono uppercase tracking-tight px-1" style={{ fontSize: '9px', backgroundColor: 'rgba(0,0,0,0.7)' }}>{n.label}</text>
             </g>
           ))}
        </svg>
@@ -179,35 +179,35 @@ const CodeBlock: React.FC<{ content: string; language?: string }> = ({ content, 
     if (language === 'nmap' || (content.includes('PORT') && content.includes('STATE') && content.includes('SERVICE'))) {
       return lines.map((line, i) => {
         if (line.trim().startsWith('PORT')) {
-          return <div key={i} className="text-amber-500 font-bold border-b border-zinc-800 inline-block mb-1 w-full">{line}</div>;
+          return <div key={i} className="text-accent font-bold border-b inline-block mb-1 w-full" style={{ borderColor: '#27272a' }}>{line}</div>;
         }
         if (/^\d+\/tcp/.test(line.trim())) {
            const parts = line.split(/\s+/);
            if (parts.length >= 3) {
              return (
-               <div key={i} className="grid grid-cols-[80px_80px_1fr] gap-2 border-b border-zinc-900/50 py-0.5 hover:bg-zinc-900">
-                 <span className="text-amber-400 font-bold">{parts[0]}</span>
-                 <span className={parts[1] === 'open' ? 'text-emerald-500 font-bold uppercase' : 'text-red-500 uppercase'}>{parts[1]}</span>
-                 <span className="text-zinc-400">{parts.slice(2).join(' ')}</span>
+               <div key={i} className="grid gap-2 border-b py-0.5 hover-bg-surface" style={{ gridTemplateColumns: '80px 80px 1fr', borderColor: 'rgba(39, 39, 42, 0.5)' }}>
+                 <span className="font-bold" style={{ color: '#fbbf24' }}>{parts[0]}</span>
+                 <span className={`font-bold uppercase ${parts[1] === 'open' ? 'text-emerald' : 'text-red'}`}>{parts[1]}</span>
+                 <span className="text-secondary" style={{ opacity: 0.8 }}>{parts.slice(2).join(' ')}</span>
                </div>
              );
            }
         }
-        return <div key={i} className="text-zinc-400">{line}</div>;
+        return <div key={i} className="text-secondary">{line}</div>;
       });
     }
     if (language === 'json' || (content.trim().startsWith('{') && content.trim().endsWith('}'))) {
-      return <pre className="text-amber-100 whitespace-pre-wrap text-xs">{content}</pre>;
+      return <pre className="whitespace-pre-wrap text-xs" style={{ color: '#fef3c7' }}>{content}</pre>;
     }
-    return <div className="text-zinc-300">{content}</div>;
+    return <div style={{ color: '#d4d4d8' }}>{content}</div>;
   }, [content, language]);
 
   return (
-    <div className="relative group my-4 rounded-sm bg-black border border-zinc-800 font-mono text-xs overflow-hidden">
-      <div className="flex justify-between items-center px-3 py-2 bg-zinc-900/50 border-b border-zinc-800 text-zinc-500 select-none">
-         <span className="uppercase text-[10px] tracking-wider font-bold text-amber-600">{language || 'RAW_DATA'}</span>
-         <button onClick={handleCopy} className="hover:text-amber-500 transition-colors">
-           {copied ? <Check size={12} className="text-emerald-500"/> : <Copy size={12}/>}
+    <div className="relative group my-4 rounded-sm bg-black border font-mono text-xs overflow-hidden">
+      <div className="flex justify-between items-center px-3 py-2 border-b text-secondary" style={{ backgroundColor: 'rgba(24, 24, 27, 0.5)', userSelect: 'none' }}>
+         <span className="uppercase tracking-wider font-bold text-accent" style={{ fontSize: '10px' }}>{language || 'RAW_DATA'}</span>
+         <button onClick={handleCopy} className="hover-text-accent transition-colors">
+           {copied ? <Check size={12} className="text-emerald"/> : <Copy size={12}/>}
          </button>
       </div>
       <div className="p-4 overflow-x-auto">{highlightedContent}</div>
@@ -222,10 +222,10 @@ const InlineParser: React.FC<{ text: string }> = ({ text }) => {
     <>
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) return <strong key={i} className="text-white font-bold">{part.slice(2, -2)}</strong>;
-        if (part.startsWith('`') && part.endsWith('`')) return <code key={i} className="bg-zinc-900 text-amber-500 px-1.5 py-0.5 rounded-sm text-xs font-mono mx-0.5 border border-zinc-800">{part.slice(1, -1)}</code>;
+        if (part.startsWith('`') && part.endsWith('`')) return <code key={i} className="text-accent px-1.5 py-0.5 rounded-sm text-xs font-mono mx-0.5 border" style={{ backgroundColor: '#18181b' }}>{part.slice(1, -1)}</code>;
         if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
            const match = part.match(/\[(.*?)\]\((.*?)\)/);
-           if (match) return <a key={i} href={match[2]} target="_blank" rel="noreferrer" className="text-amber-600 hover:text-amber-400 hover:underline decoration-dotted underline-offset-4">{match[1]}</a>;
+           if (match) return <a key={i} href={match[2]} target="_blank" rel="noreferrer" className="text-accent hover-text-white underline decoration-dotted underline-offset-4">{match[1]}</a>;
         }
         return part;
       })}
@@ -257,21 +257,21 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
            <div key={index}>
              {part.split('\n').map((line, lineIdx) => {
                 const trimmed = line.trim();
-                if (!trimmed) return <div key={lineIdx} className="h-2" />; 
-                if (line.startsWith('# ')) return <h1 key={lineIdx} className="text-lg font-bold text-white mt-6 mb-4 border-b border-zinc-800 pb-2 font-mono uppercase tracking-tight">{line.substring(2)}</h1>;
-                if (line.startsWith('## ')) return <h2 key={lineIdx} className="text-sm font-bold text-amber-500 mt-5 mb-3 flex items-center uppercase tracking-wider"><ChevronRight size={14} className="mr-1"/>{line.substring(3)}</h2>;
-                if (line.startsWith('### ')) return <h3 key={lineIdx} className="text-xs font-bold text-zinc-300 mt-4 mb-2 uppercase">{line.substring(4)}</h3>;
+                if (!trimmed) return <div key={lineIdx} style={{ height: '0.5rem' }} />; 
+                if (line.startsWith('# ')) return <h1 key={lineIdx} className="text-lg font-bold text-white mt-6 mb-4 border-b pb-2 font-mono uppercase tracking-tight">{line.substring(2)}</h1>;
+                if (line.startsWith('## ')) return <h2 key={lineIdx} className="text-sm font-bold text-accent mt-4 mb-3 flex items-center uppercase tracking-wider"><ChevronRight size={14} className="mr-1"/>{line.substring(3)}</h2>;
+                if (line.startsWith('### ')) return <h3 key={lineIdx} className="text-xs font-bold text-secondary mt-4 mb-2 uppercase" style={{ color: '#d4d4d8' }}>{line.substring(4)}</h3>;
                 if (line.trim().match(/^[-*]\s/)) {
-                   return <div key={lineIdx} className="flex items-start mb-2 ml-1 group"><span className="text-amber-600/50 group-hover:text-amber-500 mr-3 mt-1.5 text-[6px]">●</span><span className="text-zinc-400 leading-relaxed text-sm"><InlineParser text={line.replace(/^\s*[-*]\s/, '')} /></span></div>;
+                   return <div key={lineIdx} className="flex items-start mb-2 ml-1 group"><span className="mr-3 mt-1.5 text-accent opacity-50 group-hover-opacity-100" style={{ fontSize: '6px' }}>●</span><span className="text-secondary text-sm" style={{ lineHeight: '1.6' }}><InlineParser text={line.replace(/^\s*[-*]\s/, '')} /></span></div>;
                 }
                 if (line.trim().match(/^\d+\.\s/)) {
-                   return <div key={lineIdx} className="flex items-start mb-2 ml-1"><span className="text-amber-600 font-mono text-xs mr-3 mt-0.5">{line.trim().split('.')[0]}.</span><span className="text-zinc-400 leading-relaxed text-sm"><InlineParser text={line.replace(/^\s*\d+\.\s/, '')} /></span></div>
+                   return <div key={lineIdx} className="flex items-start mb-2 ml-1"><span className="text-accent font-mono text-xs mr-3 mt-0.5">{line.trim().split('.')[0]}.</span><span className="text-secondary text-sm" style={{ lineHeight: '1.6' }}><InlineParser text={line.replace(/^\s*\d+\.\s/, '')} /></span></div>
                 }
                 if (trimmed.match(/^[A-Z][A-Za-z0-9\s\-_]+:/) && trimmed.length < 120 && !trimmed.includes('http')) {
                     const [key, ...rest] = line.split(':');
-                    return <div key={lineIdx} className="mb-1 flex flex-col sm:flex-row sm:items-baseline"><span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest min-w-[140px]">{key.trim()}:</span><span className="text-zinc-300 flex-1 text-sm"><InlineParser text={rest.join(':').trim()} /></span></div>
+                    return <div key={lineIdx} className="mb-1 flex flex-col md-flex-row md-items-center"><span className="text-secondary font-mono uppercase tracking-widest" style={{ fontSize: '10px', minWidth: '140px' }}>{key.trim()}:</span><span className="text-secondary grow text-sm" style={{ color: '#d4d4d8' }}><InlineParser text={rest.join(':').trim()} /></span></div>
                 }
-                return <div key={lineIdx} className="mb-1 text-zinc-400 leading-relaxed text-sm"><InlineParser text={line} /></div>;
+                return <div key={lineIdx} className="mb-1 text-secondary text-sm" style={{ lineHeight: '1.6' }}><InlineParser text={line} /></div>;
              })}
            </div>
          );
@@ -354,64 +354,64 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({ output, sources, i
   };
 
   return (
-    <div className={`w-full flex flex-col h-full bg-black transition-all duration-300 ${isExpanded ? 'fixed inset-4 z-50 shadow-2xl border border-zinc-700 rounded-lg' : ''}`}>
+    <div className={`w-full flex flex-col h-full bg-black transition-all duration-300 ${isExpanded ? 'fixed inset-4 z-50 shadow-2xl border rounded-lg' : ''}`}>
       {/* Terminal Header */}
-      <div className="bg-zinc-900/80 px-4 py-2 flex items-center justify-between border-b border-zinc-800 shrink-0 select-none">
+      <div className="px-4 py-2 flex items-center justify-between border-b shrink-0" style={{ backgroundColor: 'rgba(24, 24, 27, 0.8)', userSelect: 'none' }}>
         <div className="flex items-center space-x-3">
-          <Terminal size={14} className="text-amber-500" />
-          <span className="text-[10px] font-bold font-mono text-zinc-400 tracking-widest uppercase">/var/log/console_out</span>
+          <Terminal size={14} className="text-accent" />
+          <span className="font-bold font-mono text-secondary tracking-widest uppercase" style={{ fontSize: '10px' }}>/var/log/console_out</span>
         </div>
         <div className="flex items-center space-x-4">
-          {isTyping && <span className="text-[10px] text-amber-500 font-mono animate-pulse">RECEIVING_STREAM...</span>}
+          {isTyping && <span className="text-accent font-mono animate-pulse" style={{ fontSize: '10px' }}>RECEIVING_STREAM...</span>}
           {output && !isTyping && (
             <div className="relative" ref={dropdownRef}>
-              <button onClick={() => setShowExport(!showExport)} className="text-zinc-500 hover:text-white transition-colors flex items-center space-x-1" title="Export Results">
+              <button onClick={() => setShowExport(!showExport)} className="text-secondary hover-text-white transition-colors flex items-center space-x-1" title="Export Results">
                  <Download size={14} />
-                 <span className="text-[10px] font-bold uppercase">Export</span>
+                 <span className="font-bold uppercase" style={{ fontSize: '10px' }}>Export</span>
               </button>
               {showExport && (
-                <div className="absolute right-0 top-full mt-2 w-40 bg-zinc-900 border border-zinc-700 rounded-sm shadow-xl z-50 overflow-hidden">
-                  <button onClick={handleExportTxt} className="w-full text-left px-3 py-2 text-xs text-zinc-300 hover:bg-black hover:text-amber-500 flex items-center space-x-2">
+                <div className="absolute mt-2 w-40 bg-surface border rounded-sm shadow-2xl z-50 overflow-hidden" style={{ right: 0, top: '100%' }}>
+                  <button onClick={handleExportTxt} className="w-full text-left px-3 py-2 text-xs text-secondary hover-bg-black hover-text-accent flex items-center space-x-2">
                     <FileText size={12} /><span>RAW .TXT</span>
                   </button>
-                  <button onClick={handleExportPdf} className="w-full text-left px-3 py-2 text-xs text-zinc-300 hover:bg-black hover:text-amber-500 flex items-center space-x-2 border-t border-zinc-800">
+                  <button onClick={handleExportPdf} className="w-full text-left px-3 py-2 text-xs text-secondary hover-bg-black hover-text-accent flex items-center space-x-2 border-t">
                     <FileIcon size={12} /><span>REPORT .PDF</span>
                   </button>
                 </div>
               )}
             </div>
           )}
-          <button onClick={() => setIsExpanded(!isExpanded)} className="text-zinc-500 hover:text-white transition-colors">
+          <button onClick={() => setIsExpanded(!isExpanded)} className="text-secondary hover-text-white transition-colors">
             {isExpanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
           </button>
         </div>
       </div>
 
       {/* Terminal Body */}
-      <div ref={scrollRef} className="flex-1 p-6 overflow-auto font-mono text-sm text-zinc-300 relative scroll-smooth bg-black custom-scrollbar">
+      <div ref={scrollRef} className="flex-1 p-6 overflow-auto font-mono text-sm relative bg-black" style={{ scrollBehavior: 'smooth', color: '#d4d4d8' }}>
         {output ? (
           <div className="relative z-0 pb-8 animate-in fade-in duration-300">
             <MarkdownRenderer content={output} />
             {isTyping && (
-               <div className="mt-2 w-2 h-4 bg-amber-500 animate-pulse inline-block"></div>
+               <div className="mt-2 w-2 h-4 bg-accent animate-pulse inline-block"></div>
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-zinc-800">
+          <div className="flex flex-col items-center justify-center h-full text-secondary">
             <Terminal size={48} className="mb-4 opacity-20" strokeWidth={1} />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase opacity-40">Awaiting Input Signal</p>
+            <p className="text-xs font-mono tracking-widest uppercase opacity-40" style={{ letterSpacing: '0.2em' }}>Awaiting Input Signal</p>
           </div>
         )}
       </div>
 
       {/* Sources Footer */}
       {sources && sources.length > 0 && (
-        <div className="bg-zinc-900/50 p-3 border-t border-zinc-800 text-xs shrink-0 z-20">
+        <div className="p-3 border-t text-xs shrink-0 z-20" style={{ backgroundColor: 'rgba(24, 24, 27, 0.5)' }}>
           <div className="flex flex-wrap gap-2">
-            <span className="text-zinc-500 font-bold uppercase tracking-wider flex items-center mr-2 text-[10px] self-center">Intel Sources:</span>
+            <span className="text-secondary font-bold uppercase tracking-wider flex items-center mr-2" style={{ fontSize: '10px', alignSelf: 'center' }}>Intel Sources:</span>
             {sources.map((source, idx) => (
-              <a key={idx} href={source.uri} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-1 bg-black hover:bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 text-zinc-400 hover:text-amber-500 px-2 py-1 rounded-sm transition-all duration-200 max-w-[200px]">
-                <span className="truncate font-mono text-[10px]">{source.title}</span>
+              <a key={idx} href={source.uri} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-1 bg-black hover-bg-surface border hover-border-accent text-secondary hover-text-accent px-2 py-1 rounded-sm transition-all duration-200" style={{ maxWidth: '200px' }}>
+                <span className="truncate font-mono" style={{ fontSize: '10px' }}>{source.title}</span>
                 <ExternalLink size={8} />
               </a>
             ))}

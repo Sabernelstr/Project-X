@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   RadialBarChart, 
   RadialBar, 
-  Legend, 
   ResponsiveContainer, 
   Tooltip,
   BarChart,
@@ -30,11 +29,9 @@ export const ThreatGauge: React.FC<ThreatGaugeProps> = ({ score }) => {
     }
   ];
 
-  const fillColor = score > 75 ? '#ef4444' : score > 40 ? '#f59e0b' : '#10b981';
-
   return (
-    <div className="w-full h-64 bg-cyber-surface p-4 flex flex-col items-center justify-center relative">
-      <h4 className="absolute top-4 left-4 text-[10px] font-bold font-mono text-cyber-textSecondary uppercase tracking-widest">Threat Probability</h4>
+    <div className="w-full bg-surface p-4 flex flex-col items-center justify-center relative" style={{ height: '16rem' }}>
+      <h4 className="absolute top-0 left-0 m-4 text-secondary font-bold font-mono uppercase tracking-widest" style={{ fontSize: '10px' }}>Threat Probability</h4>
       <ResponsiveContainer width="100%" height="100%">
         <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="80%" barSize={8} data={data} startAngle={180} endAngle={0}>
           <RadialBar
@@ -42,10 +39,10 @@ export const ThreatGauge: React.FC<ThreatGaugeProps> = ({ score }) => {
             dataKey="uv"
             cornerRadius={0}
           />
-          <text x="50%" y="45%" textAnchor="middle" dominantBaseline="middle" className="fill-cyber-text text-3xl font-bold font-mono tracking-tighter">
+          <text x="50%" y="45%" textAnchor="middle" dominantBaseline="middle" className="fill-primary text-3xl font-bold font-mono tracking-tight">
             {score}%
           </text>
-          <text x="50%" y="60%" textAnchor="middle" dominantBaseline="middle" className="fill-cyber-textSecondary text-[10px] font-bold uppercase tracking-widest">
+          <text x="50%" y="60%" textAnchor="middle" dominantBaseline="middle" className="fill-secondary font-bold uppercase tracking-widest" style={{ fontSize: '10px' }}>
             Risk Factor
           </text>
         </RadialBarChart>
@@ -62,8 +59,8 @@ export const NetworkActivityChart: React.FC = () => {
   }));
 
   return (
-    <div className="w-full h-64 bg-cyber-surface p-4 mt-4">
-      <h4 className="mb-4 text-[10px] font-bold font-mono text-cyber-textSecondary uppercase tracking-widest">Network Traffic [Real-time]</h4>
+    <div className="w-full bg-surface p-4 mt-4" style={{ height: '16rem' }}>
+      <h4 className="mb-4 text-secondary font-bold font-mono uppercase tracking-widest" style={{ fontSize: '10px' }}>Network Traffic [Real-time]</h4>
       <ResponsiveContainer width="100%" height="80%">
         <BarChart data={data} barGap={2}>
           <CartesianGrid strokeDasharray="1 1" vertical={false} stroke="var(--border)" opacity={0.3} />

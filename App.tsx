@@ -142,7 +142,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-cyber-background text-cyber-text font-sans overflow-hidden transition-colors duration-300">
+    <div className="flex h-screen bg-background text-primary font-sans overflow-hidden transition-colors duration-300">
       <Sidebar 
         activeView={activeView} 
         onNavigate={setActiveView} 
@@ -152,25 +152,25 @@ export default function App() {
 
       <main className="flex-1 flex flex-col relative overflow-hidden">
         {/* Top Navigation Bar */}
-        <header className="h-14 border-b border-cyber-border flex items-center px-6 bg-cyber-background/95 backdrop-blur-sm z-20 justify-between sticky top-0">
+        <header className="border-b flex items-center px-6 bg-background backdrop-blur-sm z-20 justify-between sticky top-0" style={{ height: '3.5rem' }}>
           <div className="flex items-center text-sm font-medium">
-            <button onClick={resetSelection} className="flex items-center text-cyber-textSecondary hover:text-cyber-accent transition-colors uppercase tracking-wider text-xs">
+            <button onClick={resetSelection} className="flex items-center text-secondary hover-text-accent transition-colors uppercase tracking-wider text-xs">
               <Terminal size={14} className="mr-2" />
               Ops Center
             </button>
             {selectedTool && (
               <>
-                <ChevronRight size={14} className="mx-2 text-cyber-border" />
-                <span className="text-cyber-accent bg-cyber-accent/10 px-2 py-0.5 rounded border border-cyber-accent/20 text-xs font-bold uppercase tracking-wide">
+                <ChevronRight size={14} className="mx-2 text-secondary" />
+                <span className="text-accent bg-surface px-2 py-1 rounded border border-accent text-xs font-bold uppercase tracking-wide" style={{ borderColor: 'rgba(245, 158, 11, 0.2)', backgroundColor: 'rgba(245, 158, 11, 0.1)' }}>
                   {selectedTool.name}
                 </span>
               </>
             )}
           </div>
           <div className="flex items-center space-x-3">
-            <div className="hidden md:flex items-center space-x-2 px-3 py-1 rounded border border-cyber-border bg-cyber-surface">
-              <div className={`h-1.5 w-1.5 rounded-full ${isScanning ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`}></div>
-              <span className="text-[10px] font-bold text-cyber-textSecondary tracking-widest uppercase">
+            <div className="hidden md-flex items-center space-x-2 px-3 py-1 rounded border bg-surface">
+              <div className={`rounded-full ${isScanning ? 'animate-pulse' : ''}`} style={{ width: '6px', height: '6px', backgroundColor: isScanning ? 'var(--warning)' : 'var(--success)' }}></div>
+              <span className="text-xs font-bold text-secondary tracking-widest uppercase" style={{ fontSize: '10px' }}>
                 {isScanning ? 'BUSY' : 'READY'}
               </span>
             </div>
@@ -178,18 +178,18 @@ export default function App() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-auto p-6 md:p-8 relative scroll-smooth">
+        <div className="flex-1 overflow-auto p-6 md-px-6 relative" style={{ scrollBehavior: 'smooth' }}>
           
           {/* Layout Container */}
-          <div className="max-w-8xl mx-auto min-h-full">
+          <div className="max-w-8xl mx-auto h-full">
 
             {activeView === 'dashboard' && (
               <>
                 {!selectedTool ? (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                    <div className="mb-8 border-b border-cyber-border pb-6">
-                      <h1 className="text-2xl font-bold text-cyber-text tracking-tight mb-2 uppercase font-mono">Active Operations</h1>
-                      <p className="text-cyber-textSecondary text-sm max-w-2xl">Select a reconnaissance vector to initialize intelligence gathering sequence.</p>
+                  <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="mb-8 border-b pb-6">
+                      <h1 className="text-2xl font-bold text-primary tracking-tight mb-2 uppercase font-mono">Active Operations</h1>
+                      <p className="text-secondary text-sm max-w-2xl">Select a reconnaissance vector to initialize intelligence gathering sequence.</p>
                     </div>
                     
                     <div className="space-y-8">
@@ -197,11 +197,11 @@ export default function App() {
                          groupedTools[category] && groupedTools[category].length > 0 && (
                           <div key={category}>
                             <div className="flex items-center mb-4 space-x-2">
-                              <div className="h-px bg-cyber-border flex-1"></div>
-                              <span className="text-xs font-bold text-cyber-textSecondary uppercase tracking-widest px-2">{category} Ops</span>
-                              <div className="h-px bg-cyber-border flex-1"></div>
+                              <div className="flex-1 border-b"></div>
+                              <span className="text-xs font-bold text-secondary uppercase tracking-widest px-2">{category} Ops</span>
+                              <div className="flex-1 border-b"></div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-4">
                               {groupedTools[category].map(tool => (
                                 <ToolCard key={tool.id} tool={tool} onClick={handleToolSelect} />
                               ))}
@@ -212,25 +212,25 @@ export default function App() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col lg:flex-row gap-6 animate-in fade-in duration-300 h-full">
+                  <div className="flex flex-col lg-flex-row gap-6 animate-in fade-in duration-300 h-full">
                     
                     {/* Left Column: Inputs & Controls */}
-                    <div className="w-full lg:w-[400px] flex flex-col gap-6 shrink-0">
-                      <div className="bg-cyber-surface border border-cyber-border rounded-sm p-6 shadow-card">
-                        <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-cyber-border">
-                          <Search size={18} className="text-cyber-accent" />
-                          <h2 className="text-sm font-bold text-cyber-text uppercase tracking-wider">Target Acquisition</h2>
+                    <div className="w-full lg-w-400 flex flex-col gap-6 shrink-0">
+                      <div className="bg-surface border rounded-sm p-6 shadow-card">
+                        <div className="flex items-center space-x-3 mb-6 pb-4 border-b">
+                          <Search size={18} className="text-accent" />
+                          <h2 className="text-sm font-bold text-primary uppercase tracking-wider">Target Acquisition</h2>
                         </div>
                         
                         <form onSubmit={handleRunScan} className="space-y-5">
                           <div>
-                            <label className="block text-[10px] font-bold text-cyber-textSecondary mb-2 uppercase tracking-widest">Identifier (IP / Domain)</label>
+                            <label className="block text-xs font-bold text-secondary mb-2 uppercase tracking-widest" style={{ fontSize: '10px' }}>Identifier (IP / Domain)</label>
                             <input 
                               type="text" 
                               value={targetInput}
                               onChange={(e) => setTargetInput(e.target.value)}
                               placeholder="TARGET_ID"
-                              className="w-full bg-cyber-background border border-cyber-border focus:border-cyber-accent rounded-sm px-4 py-3 text-cyber-text placeholder-cyber-textSecondary/30 focus:ring-1 focus:ring-cyber-accent outline-none font-mono text-sm transition-all"
+                              className="w-full bg-background border focus-ring rounded-sm px-4 py-3 text-primary outline-none font-mono text-sm transition-all"
                               autoFocus
                             />
                           </div>
@@ -238,11 +238,12 @@ export default function App() {
                           <button 
                             type="submit"
                             disabled={isScanning || !targetInput}
-                            className={`w-full py-3 rounded-sm font-bold text-xs uppercase tracking-wider flex items-center justify-center transition-all ${
+                            className={`w-full py-3 rounded-sm font-bold text-xs uppercase tracking-wider flex items-center justify-center transition-all border ${
                               isScanning 
-                                ? 'bg-cyber-surfaceHover text-cyber-textSecondary cursor-wait border border-cyber-border' 
-                                : 'bg-cyber-accent hover:bg-cyber-accentHover text-black border border-transparent shadow-sm hover:shadow-glow'
+                                ? 'bg-surface text-secondary' 
+                                : 'bg-accent text-black hover-bg-surface border-transparent'
                             }`}
+                            style={{ cursor: isScanning ? 'wait' : 'pointer' }}
                           >
                             {isScanning ? (
                               <>
@@ -258,19 +259,19 @@ export default function App() {
                           </button>
                         </form>
 
-                        <div className="mt-6 pt-4 border-t border-cyber-border">
-                           <div className="text-[10px] text-cyber-textSecondary font-bold uppercase tracking-widest mb-2">Protocol Info</div>
-                           <p className="text-xs text-cyber-textSecondary leading-relaxed font-mono">{selectedTool.description}</p>
+                        <div className="mt-6 pt-4 border-t">
+                           <div className="text-secondary font-bold uppercase tracking-widest mb-2" style={{ fontSize: '10px' }}>Protocol Info</div>
+                           <p className="text-xs text-secondary font-mono" style={{ lineHeight: '1.6' }}>{selectedTool.description}</p>
                         </div>
                       </div>
 
                       {/* Visualization Widgets */}
                       {currentResult && (
-                        <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-700 delay-100">
-                          <div className="rounded-sm overflow-hidden shadow-card border border-cyber-border bg-cyber-surface">
+                        <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: '100ms' }}>
+                          <div className="rounded-sm overflow-hidden shadow-card border bg-surface">
                              <ThreatGauge score={Math.floor(Math.random() * 60) + 20} />
                           </div>
-                          <div className="rounded-sm overflow-hidden shadow-card border border-cyber-border bg-cyber-surface">
+                          <div className="rounded-sm overflow-hidden shadow-card border bg-surface">
                              <NetworkActivityChart />
                           </div>
                         </div>
@@ -278,17 +279,17 @@ export default function App() {
                     </div>
 
                     {/* Right Column: Console Output */}
-                    <div className="w-full lg:flex-1 flex flex-col min-h-[600px]">
+                    <div className="w-full lg-flex-1 flex flex-col" style={{ minHeight: '600px' }}>
                       {errorMsg ? (
-                        <div className="bg-red-500/10 border border-red-500/30 p-6 rounded-sm flex items-start text-red-500 animate-in slide-in-from-right-4">
-                          <AlertTriangle className="mr-3 flex-shrink-0" />
+                        <div className="border p-6 rounded-sm flex items-start text-red animate-in slide-in-from-right-4" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.3)' }}>
+                          <AlertTriangle className="mr-3 shrink-0" />
                           <div>
                             <h3 className="font-bold mb-1 text-sm font-mono uppercase tracking-wider">System Error</h3>
                             <p className="text-sm font-mono opacity-90">{errorMsg}</p>
                           </div>
                         </div>
                       ) : (
-                        <div className="h-full flex flex-col shadow-card rounded-sm overflow-hidden border border-cyber-border bg-black">
+                        <div className="h-full flex flex-col shadow-card rounded-sm overflow-hidden border bg-black">
                            <ConsoleOutput 
                             output={currentResult?.rawOutput || ''} 
                             sources={currentResult?.sources}
@@ -306,38 +307,40 @@ export default function App() {
 
             {activeView === 'history' && (
               <div className="animate-in fade-in duration-500">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pb-6 border-b border-cyber-border gap-4">
+                <div className="flex flex-col md-flex-row items-start md-items-center justify-between mb-6 pb-6 border-b gap-4">
                   <div className="flex items-center gap-4">
-                    <h2 className="text-xl font-bold text-cyber-text uppercase tracking-tight font-mono">Mission Logs</h2>
-                    <span className="text-xs font-bold font-mono text-cyber-accent bg-cyber-accent/10 px-3 py-1 rounded-sm border border-cyber-accent/20">
+                    <h2 className="text-xl font-bold text-primary uppercase tracking-tight font-mono">Mission Logs</h2>
+                    <span className="text-xs font-bold font-mono text-accent px-3 py-1 rounded-sm border border-accent" style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)' }}>
                       {processedHistory.length} RECORDS
                     </span>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row w-full md:w-auto gap-3">
+                  <div className="flex flex-col md-flex-row w-full md-w-auto gap-3">
                      {/* Search Input */}
-                    <div className="relative group w-full md:w-64">
-                      <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-cyber-textSecondary group-focus-within:text-cyber-accent transition-colors" />
+                    <div className="relative group w-full md-w-64">
+                      <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary group-hover-text-accent transition-colors" style={{ marginTop: '-1px' }} />
                       <input 
                         type="text" 
                         placeholder="FILTER LOGS..." 
                         value={historySearch}
                         onChange={(e) => setHistorySearch(e.target.value)}
-                        className="w-full bg-cyber-surface border border-cyber-border rounded-sm py-2 pl-9 pr-4 text-xs font-mono text-cyber-text focus:border-cyber-accent focus:ring-0 outline-none uppercase placeholder-cyber-textSecondary/50"
+                        className="w-full bg-surface border rounded-sm py-2 pl-9 pr-4 text-xs font-mono text-primary focus-ring outline-none uppercase"
+                        style={{ color: 'var(--text-primary)' }}
                       />
                     </div>
 
                     {/* Sort Controls */}
-                    <div className="flex items-center gap-1 bg-cyber-surface p-1 rounded-sm border border-cyber-border">
+                    <div className="flex items-center gap-1 bg-surface p-1 rounded-sm border">
                       {(['timestamp', 'target', 'tool'] as const).map((key) => (
                         <button
                           key={key}
                           onClick={() => handleSort(key)}
-                          className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-sm flex items-center gap-1 transition-all ${
+                          className={`px-3 py-1.5 font-bold uppercase tracking-wider rounded-sm flex items-center gap-1 transition-all ${
                             sortConfig.key === key 
-                              ? 'bg-cyber-accent text-black' 
-                              : 'text-cyber-textSecondary hover:text-cyber-text hover:bg-cyber-background'
+                              ? 'bg-accent text-black' 
+                              : 'text-secondary hover-text-primary hover-bg-surface'
                           }`}
+                          style={{ fontSize: '10px' }}
                         >
                           {key === 'timestamp' ? 'Date' : key}
                           {sortConfig.key === key && (
@@ -349,9 +352,9 @@ export default function App() {
                   </div>
                 </div>
                 
-                <div className="bg-cyber-surface border border-cyber-border rounded-sm overflow-hidden">
+                <div className="bg-surface border rounded-sm overflow-hidden">
                   {processedHistory.length === 0 ? (
-                    <div className="text-cyber-textSecondary text-center py-20">
+                    <div className="text-secondary text-center" style={{ padding: '5rem 0' }}>
                       {historySearch ? (
                         <>
                            <Filter size={32} className="mx-auto mb-4 opacity-30" />
@@ -365,11 +368,12 @@ export default function App() {
                       )}
                     </div>
                   ) : (
-                    <div className="divide-y divide-cyber-border">
+                    <div className="flex flex-col">
                       {processedHistory.map((scan) => (
                         <div 
                           key={scan.id} 
-                          className="p-4 flex items-center justify-between hover:bg-cyber-surfaceHover transition-colors cursor-pointer group" 
+                          className="p-4 flex items-center justify-between hover-bg-surface-hover transition-colors cursor-pointer group border-b" 
+                          style={{ borderColor: 'var(--border)' }}
                           onClick={() => {
                             const toolDef = TOOLS.find(t => t.id === scan.tool);
                             if (toolDef) {
@@ -381,17 +385,17 @@ export default function App() {
                           }}
                         >
                           <div className="flex items-center space-x-4">
-                            <div className="p-2 rounded-sm bg-cyber-background border border-cyber-border text-cyber-textSecondary group-hover:text-cyber-accent group-hover:border-cyber-accent transition-colors">
+                            <div className="p-2 rounded-sm bg-background border text-secondary group-hover-text-accent group-hover-border-accent transition-colors">
                                 <ShieldCheck size={16} /> 
                             </div>
                             <div>
-                              <div className="text-cyber-text font-mono font-bold text-sm">{scan.target}</div>
-                              <div className="text-[10px] text-cyber-textSecondary uppercase tracking-wider mt-0.5">{scan.tool}</div>
+                              <div className="text-primary font-mono font-bold text-sm">{scan.target}</div>
+                              <div className="text-secondary uppercase tracking-wider mt-1" style={{ fontSize: '10px' }}>{scan.tool}</div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-xs text-cyber-textSecondary font-mono">{new Date(scan.timestamp).toLocaleTimeString()} <span className="text-cyber-textSecondary/50">|</span> {new Date(scan.timestamp).toLocaleDateString()}</div>
-                            <div className="text-[10px] font-bold text-emerald-500 mt-1 tracking-wider">COMPLETE</div>
+                            <div className="text-xs text-secondary font-mono">{new Date(scan.timestamp).toLocaleTimeString()} <span className="opacity-50">|</span> {new Date(scan.timestamp).toLocaleDateString()}</div>
+                            <div className="font-bold text-emerald mt-1 tracking-wider" style={{ fontSize: '10px' }}>COMPLETE</div>
                           </div>
                         </div>
                       ))}
