@@ -1,40 +1,40 @@
-import { GoogleGenAI } from "@google/genai";
 import { ScanResult, ToolType } from "../types";
 import { SYSTEM_INSTRUCTION, getPromptForTool } from "../constants";
 
-// Ensure process.env.API_KEY is available.
-// Note: In Vite, process.env is polyfilled by the define plugin in vite.config.ts
-const apiKey = process.env.API_KEY || '';
-
-if (!apiKey) {
-  console.warn("API_KEY is missing from environment variables. OSINT scans will likely fail.");
-}
-
-const ai = new GoogleGenAI({ apiKey });
+// We no longer import @google/genai here to avoid browser-side bundle errors.
+// The logic has been moved to api/generate.ts
 
 export const runOsintScan = async (
   tool: ToolType, 
   target: string
 ): Promise<ScanResult> => {
   
-  const modelId = 'gemini-2.5-flash'; 
   const prompt = getPromptForTool(tool, target);
 
   try {
-    const response = await ai.models.generateContent({
-      model: modelId,
-      contents: prompt,
-      config: {
+    // Call the serverless function instead of the SDK directly
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt,
         systemInstruction: SYSTEM_INSTRUCTION,
-        tools: [{ googleSearch: {} }], 
-        temperature: 0.3, // Lower temperature for more factual/analytical output
-      }
+        toolType: tool
+      }),
     });
 
-    const textOutput = response.text || "No intelligence gathered. Target may be elusive.";
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `Server responded with ${response.status}`);
+    }
+
+    const data = await response.json();
+    const textOutput = data.text || "No intelligence gathered. Target may be elusive.";
     
-    // Extract grounding metadata if available
-    const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+    // Process grounding chunks returned from the server
+    const groundingChunks = data.groundingChunks || [];
     const sources = groundingChunks
       .filter((chunk: any) => chunk.web?.uri)
       .map((chunk: any) => ({
