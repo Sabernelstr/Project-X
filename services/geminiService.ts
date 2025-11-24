@@ -1,9 +1,6 @@
 import { ScanResult, ToolType } from "../types";
 import { SYSTEM_INSTRUCTION, getPromptForTool } from "../constants";
 
-// We no longer import @google/genai here to avoid browser-side bundle errors.
-// The logic has been moved to api/generate.ts
-
 export const runOsintScan = async (
   tool: ToolType, 
   target: string
@@ -12,7 +9,7 @@ export const runOsintScan = async (
   const prompt = getPromptForTool(tool, target);
 
   try {
-    // Call the serverless function instead of the SDK directly
+    // Call the serverless function (api/generate.ts)
     const response = await fetch('/api/generate', {
       method: 'POST',
       headers: {

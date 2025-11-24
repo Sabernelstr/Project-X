@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 export default async function handler(request, response) {
-  // Handle CORS preflight if necessary (Vercel usually handles this, but good practice)
+  // Handle CORS preflight
   if (request.method === 'OPTIONS') {
     return response.status(200).send('OK');
   }
@@ -12,22 +12,24 @@ export default async function handler(request, response) {
 
   try {
     const { prompt, systemInstruction } = request.body;
+    
+    // Note: Vercel automatically injects environment variables defined in Project Settings.
+    // We use process.env.API_KEY as strictly required by the coding guidelines.
     const apiKey = process.env.API_KEY;
 
     if (!apiKey) {
-      console.error("Server Error: API_KEY is missing");
+      console.error("Server Error: API_KEY is missing in environment variables.");
       return response.status(500).json({ error: 'Server configuration error: API Key missing' });
     }
 
     const ai = new GoogleGenAI({ apiKey });
 
-    // Execute the scan on the server side
-    // We use the same model configuration as previously defined in the client
     const result = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         systemInstruction: systemInstruction,
+        // Google Search Grounding to find OSINT data
         tools: [{ googleSearch: {} }],
         temperature: 0.3,
       }
