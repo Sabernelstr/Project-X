@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Activity, Clock, Sun, Moon, LayoutGrid } from 'lucide-react';
+import { Shield, Activity, Clock, Settings, Sun, Moon } from 'lucide-react';
 
 interface SidebarProps {
   onNavigate: (view: 'dashboard' | 'history') => void;
@@ -10,62 +10,51 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activeView, theme, toggleTheme }) => {
   return (
-    <div className="h-screen bg-surface border-r flex flex-col shrink-0 transition-all z-30 w-16 md-w-64">
-      {/* Brand Header */}
-      <div className="h-14 flex items-center justify-center md-justify-start md-px-6 border-b" style={{ backgroundColor: 'rgba(0,0,0,0.02)' }}>
-        <div className="flex items-center gap-3 text-primary">
-          <div className="p-1 rounded bg-accent text-black">
-            <Shield className="w-5 h-5" strokeWidth={3} />
-          </div>
-          <span className="hidden md-block font-bold text-base tracking-wide uppercase font-mono">
-            Project_X
-          </span>
-        </div>
+    <div className="w-20 md:w-64 h-screen bg-cyber-900 border-r border-cyber-700 flex flex-col flex-shrink-0 transition-all duration-300">
+      {/* Logo Area */}
+      <div className="h-16 flex items-center justify-center md:justify-start md:px-6 border-b border-cyber-700 transition-colors duration-300">
+        <Shield className="text-cyber-accent w-8 h-8" />
+        <span className="ml-3 font-mono font-bold text-xl text-slate-900 dark:text-white hidden md:block tracking-tighter transition-colors duration-300">
+          PROJECT_<span className="text-cyber-accent">X</span>
+        </span>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 py-6 space-y-1">
-        <div className="hidden md-block px-6 mb-4 font-bold uppercase tracking-widest text-secondary" style={{ fontSize: '10px' }}>
-          Main Modules
-        </div>
-        
+      {/* Nav Links */}
+      <nav className="flex-1 py-6 space-y-2 px-2 md:px-4">
         <button 
           onClick={() => onNavigate('dashboard')}
-          className={`w-full flex items-center justify-center md-justify-start px-6 py-3 border-l-2 transition-all group ${
+          className={`w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 rounded-lg transition-all duration-200 group ${
             activeView === 'dashboard' 
-              ? 'border-accent bg-background text-primary' 
-              : 'border-transparent text-secondary hover-bg-surface-hover hover-text-primary'
+              ? 'bg-cyber-800 text-cyber-accent border border-cyber-700' 
+              : 'text-slate-500 dark:text-slate-400 hover:bg-cyber-800/50 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
-          <div className="md-mr-3">
-             <LayoutGrid size={18} className={activeView === 'dashboard' ? 'text-accent' : ''} />
-          </div>
-          <span className="hidden md-block font-medium text-xs uppercase tracking-wider">Ops Dashboard</span>
+          <Activity size={20} />
+          <span className="hidden md:block font-medium text-sm">Operations</span>
         </button>
 
         <button 
           onClick={() => onNavigate('history')}
-          className={`w-full flex items-center justify-center md-justify-start px-6 py-3 border-l-2 transition-all group ${
+          className={`w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 rounded-lg transition-all duration-200 group ${
             activeView === 'history' 
-              ? 'border-accent bg-background text-primary' 
-              : 'border-transparent text-secondary hover-bg-surface-hover hover-text-primary'
+              ? 'bg-cyber-800 text-cyber-accent border border-cyber-700' 
+              : 'text-slate-500 dark:text-slate-400 hover:bg-cyber-800/50 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
-          <div className="md-mr-3">
-            <Clock size={18} className={activeView === 'history' ? 'text-accent' : ''} />
-          </div>
-          <span className="hidden md-block font-medium text-xs uppercase tracking-wider">Audit Logs</span>
+          <Clock size={20} />
+          <span className="hidden md:block font-medium text-sm">Logs</span>
         </button>
       </nav>
 
-      {/* Footer / User Config */}
-      <div className="p-4 border-t" style={{ backgroundColor: 'rgba(0,0,0,0.02)' }}>
+      {/* Footer */}
+      <div className="p-4 border-t border-cyber-700 transition-colors duration-300">
         <button 
           onClick={toggleTheme}
-          className="w-full flex items-center justify-center md-justify-start space-x-3 px-4 py-2 rounded-sm text-secondary hover-text-accent hover-bg-surface-hover transition-colors border border-transparent"
+          className="w-full flex items-center justify-center md:justify-start space-x-3 text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer transition-colors"
+          title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
-          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-          <span className="hidden md-block text-xs font-bold uppercase tracking-wide ml-2">
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          <span className="hidden md:block text-xs font-mono uppercase">
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
           </span>
         </button>
