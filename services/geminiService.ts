@@ -2,7 +2,14 @@ import { GoogleGenAI } from "@google/genai";
 import { ScanResult, ToolType } from "../types";
 import { SYSTEM_INSTRUCTION, getPromptForTool } from "../constants";
 
+// Ensure process.env.API_KEY is available.
+// Note: In Vite, process.env is polyfilled by the define plugin in vite.config.ts
 const apiKey = process.env.API_KEY || '';
+
+if (!apiKey) {
+  console.warn("API_KEY is missing from environment variables. OSINT scans will likely fail.");
+}
+
 const ai = new GoogleGenAI({ apiKey });
 
 export const runOsintScan = async (
