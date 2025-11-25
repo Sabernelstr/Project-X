@@ -30,7 +30,7 @@ export default async function handler(request, response) {
       config: {
         systemInstruction: systemInstruction,
         // Google Search Grounding to find OSINT data
-        tools: [{ googleSearch: {} }],
+       // tools: [{ googleSearch: {} }],
         temperature: 0.3,
       }
     });
