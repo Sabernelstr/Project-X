@@ -13,13 +13,12 @@ export default async function handler(request, response) {
   try {
     const { prompt, systemInstruction } = request.body;
     
-    // Note: Vercel automatically injects environment variables defined in Project Settings.
-    // **UPDATED:** Using the recommended environment variable name for the Gemini API.
+    // Use the environment variable name you specified
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       console.error("Server Error: GEMINI_API_KEY is missing in environment variables.");
-      return response.status(500).json({ error: 'Server configuration error: Gemini API Key missing' });
+      return response.status(500).json({ error: 'Server configuration error: API Key missing' });
     }
 
     const ai = new GoogleGenAI({ apiKey });
@@ -29,8 +28,7 @@ export default async function handler(request, response) {
       contents: prompt,
       config: {
         systemInstruction: systemInstruction,
-        // Google Search Grounding to find OSINT data
-       // tools: [{ googleSearch: {} }],
+        // The 'tools' line is omitted to resolve the Vercel 10s timeout.
         temperature: 0.3,
       }
     });
@@ -48,6 +46,8 @@ export default async function handler(request, response) {
     return response.status(500).json({ 
       error: error instanceof Error ? error.message : "Internal Server Error" 
     });
+  }
+}
   }
 }
   }
