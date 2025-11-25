@@ -14,12 +14,12 @@ export default async function handler(request, response) {
     const { prompt, systemInstruction } = request.body;
     
     // Note: Vercel automatically injects environment variables defined in Project Settings.
-    // We use process.env.API_KEY as strictly required by the coding guidelines.
-    const apiKey = process.env.API_KEY;
+    // **UPDATED:** Using the recommended environment variable name for the Gemini API.
+    const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      console.error("Server Error: API_KEY is missing in environment variables.");
-      return response.status(500).json({ error: 'Server configuration error: API Key missing' });
+      console.error("Server Error: GEMINI_API_KEY is missing in environment variables.");
+      return response.status(500).json({ error: 'Server configuration error: Gemini API Key missing' });
     }
 
     const ai = new GoogleGenAI({ apiKey });
@@ -48,5 +48,7 @@ export default async function handler(request, response) {
     return response.status(500).json({ 
       error: error instanceof Error ? error.message : "Internal Server Error" 
     });
+  }
+}
   }
 }
