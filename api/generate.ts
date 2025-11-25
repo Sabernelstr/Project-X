@@ -13,7 +13,7 @@ export default async function handler(request, response) {
   try {
     const { prompt, systemInstruction } = request.body;
     
-    // Use the environment variable name you specified
+    // Using the correct environment variable name
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
@@ -46,9 +46,5 @@ export default async function handler(request, response) {
     return response.status(500).json({ 
       error: error instanceof Error ? error.message : "Internal Server Error" 
     });
-  }
-}
-  }
-}
   }
 }
